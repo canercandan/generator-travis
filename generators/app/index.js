@@ -26,15 +26,15 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function () {
       var optional =  this.options.config || {};
-      var existing = this.fs.exists(this.destinationPath(this.options.path + '.travis.yml'))
-            ? yaml.parse(this.fs.read(this.destinationPath(this.options.path + '.travis.yml')))
+      var existing = this.fs.exists(this.destinationPath(this.options.path, '.travis.yml'))
+            ? yaml.parse(this.fs.read(this.destinationPath(this.options.path, '.travis.yml')))
             : {};
       var defaults = yaml.parse(this.fs.read(this.templatePath('travisyml')));
       var results = mergeAndConcat(existing, optional, defaults);
       var sortedResults = sort(results, { sort: sortByKeys });
       sortedResults.node_js = ramda.uniq(sortedResults.node_js);
       this.fs.write(
-        this.destinationPath(this.options.path + '.travis.yml'),
+        this.destinationPath(this.options.path, '.travis.yml'),
         yaml.stringify(sortedResults, 3, 2)
       );
     },
